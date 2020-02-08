@@ -14,43 +14,44 @@
 #include <arpa/inet.h>
 #include "UrlParser.h"
 
-class WebClient
+namespace simple_curl
 {
-public:
+  class WebClient {
+  public:
     WebClient(std::string);
     virtual ~WebClient();
 
-    void setFilePath(char *);
-    void setFilePath(std::string);
-    void fetch(void);
+    void setFilePath(const char *);
+    void setFilePath(const std::string);
+    void fetch();
     void flushResponse();
 
-private:
+  private:
     int createSocket();
     void setInAddr();
     int resolveAddressIpv4();
-    void setNonBlockMode(bool);
+    void setNonBlockMode(const bool);
     void connect();
     void sendRequest();
-    std::string buildHttpPacket();
+    const std::string buildHttpPacket();
     void receiveResponse();
-    size_t getHeaderLenght(std::string&);
-    void setContentLenght(std::string&);
-    std::string getHtmlBody();
-    void writeToFile();
+    size_t getHeaderLenght(const std::string&);
+    void setContentLenght(const std::string&);
+    const std::string getHtmlBody();
     bool contentLenghtInited();
+    void writeToFile();
 
-    int socket;
-    UrlParser url;
-    std::string method;
-    std::string response;
-    size_t contentLenght;
-    std::string filePath;
-    struct sockaddr_in serverIpv4;
+    int socket_;
+    UrlParser url_;
+    std::string method_;
+    std::string response_;
+    size_t content_lenght_;
+    std::string file_path_;
+    struct sockaddr_in server_ipv4_;
 #ifdef CONF_IPv6
-    struct sockaddr_in6 serverIpv6;
+  struct             sockaddr_in6 server_ipv6_;
 #endif
-    unsigned char connectionTimeout;
-};
-
+    unsigned char connection_timeout_;
+  };
+}
 #endif /* WEBCLIENT_H_ */

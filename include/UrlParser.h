@@ -9,34 +9,37 @@
 #define URLPARSER_H_
 
 #include <string>
+#include <regex>
 
-class UrlParser
+namespace simple_curl
 {
-public:
-    UrlParser();
-    UrlParser(std::string url);
-    UrlParser(char *url);
-    unsigned short getPort();
-    std::string getHost();
-    std::string getPath();
-    void parse(std::string);
+class UrlParser {
+ public:
+  UrlParser();
+  UrlParser(std::string url);
+  UrlParser(char *url);
 
-    virtual ~UrlParser();
-private:
-    void init();
+  unsigned short       getPort();
+  const std::string    getHost();
+  const std::string    getPath();
+
+  virtual ~UrlParser();
+ private:
 #ifdef CONF_HTTPS
-    bool isHttps;
+  bool is_https_;
 #endif
-    void setPath();
-    void setHost();
-    void setProtocol(std::string);
-    void setHost(std::string);
-    void setPort(std::string);
-    void setPath(std::string);
+  void parse(std::string);
+  void setPath();
+  void setHost();
+  void setProtocol(std::string);
+  void setHost(std::string);
+  void setPort(std::string);
+  void setPath(std::string);
 
-    unsigned short port;
-    std::string host;
-    std::string path;
+  unsigned short port_;
+  std::string    host_;
+  std::string    path_;
+  std::regex     url_regex_;
 };
-
+}
 #endif /* URLPARSER_H_ */
